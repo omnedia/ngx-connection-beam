@@ -86,6 +86,10 @@ export class NgxConnectionBeamComponent implements AfterViewInit, OnDestroy {
   private startTime: number | null = null;
   private animationFrameId: number | null = null;
 
+  private intersectionObserver?: IntersectionObserver;
+  private isAnimating = false;
+  private isInView = false;
+
   private resizeTimeout: any;
 
   ngAfterViewInit(): void {
@@ -99,13 +103,34 @@ export class NgxConnectionBeamComponent implements AfterViewInit, OnDestroy {
     this.animate();
 
     window.addEventListener("resize", () => this.handleResize());
+
+    this.intersectionObserver = new IntersectionObserver(([entry]) => {
+      this.renderContents(entry.isIntersecting);
+    });
+    this.intersectionObserver.observe(this.wrapper.nativeElement);
   }
 
   ngOnDestroy(): void {
     window.removeEventListener("resize", () => this.handleResize());
 
+    if (this.intersectionObserver) {
+      this.intersectionObserver.disconnect();
+    }
+
     if (this.animationFrameId) {
       cancelAnimationFrame(this.animationFrameId);
+    }
+  }
+
+  renderContents(isIntersecting: boolean) {
+    if (isIntersecting && !this.isInView) {
+      this.isInView = true;
+
+      if (!this.isAnimating) {
+        this.animationFrameId = requestAnimationFrame(() => this.animate());
+      }
+    } else if (!isIntersecting) {
+      this.isInView = false;
     }
   }
 
@@ -125,7 +150,6 @@ export class NgxConnectionBeamComponent implements AfterViewInit, OnDestroy {
     const svgHeight = containerRect.height;
     this.svgDimensions = { width: svgWidth, height: svgHeight };
 
-    // Calculate the centers of the elements
     const startX =
       rectA.left - containerRect.left + rectA.width / 2 + this.startXOffset;
     const startY =
@@ -207,6 +231,13 @@ export class NgxConnectionBeamComponent implements AfterViewInit, OnDestroy {
     const duration = this.duration * 1000;
 
     const animateFrame = (timestamp: number) => {
+      if (!this.isInView) {
+        this.isAnimating = false;
+        return;
+      }
+
+      this.isAnimating = true;
+
       if (!this.startTime) {
         this.startTime = timestamp + this.delay * 1000;
       }

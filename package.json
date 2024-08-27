@@ -1,7 +1,7 @@
 {
   "name": "@omnedia/ngx-connection-beam",
   "description": "A simple component library to connect elements with an animated beam.",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "peerDependencies": {
     "@angular/common": "^18.2.0",
     "@angular/core": "^18.2.0"
