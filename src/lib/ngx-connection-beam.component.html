@@ -1,0 +1,45 @@
+<div class="om-connection-beam" #OmConnectionBeamWrapper>
+  <svg
+    className="transform-gpu"
+    fill="none"
+    [attr.width]="svgDimensions.width"
+    [attr.height]="svgDimensions.height"
+    xmlns="http://www.w3.org/2000/svg"
+    [attr.viewBox]="'0 0 ' + svgDimensions.width + ' ' + svgDimensions.height"
+  >
+    <path
+      [attr.d]="path"
+      [attr.stroke]="pathColor"
+      [attr.stroke-width]="pathWidth"
+      [attr.stroke-opacity]="pathOpacity"
+      stroke-linecap="round"
+    />
+    <path
+      [attr.d]="path"
+      [attr.stroke-width]="pathWidth"
+      [attr.stroke]="'url(#' + id + ')'"
+      stroke-opacity="1"
+      stroke-linecap="round"
+    />
+    <defs>
+      <linearGradient
+        className="transform-gpu"
+        [id]="id"
+        gradientUnits="userSpaceOnUse"
+        [attr.x1]="gradientCoordinates.x1[0]"
+        [attr.x2]="gradientCoordinates.x2[0]"
+        [attr.y1]="gradientCoordinates.y1[0]"
+        [attr.y2]="gradientCoordinates.y2[0]"
+      >
+        <stop [attr.stop-color]="gradientStartColor" stop-opacity="0"></stop>
+        <stop [attr.stop-color]="gradientStartColor"></stop>
+        <stop offset="32.5%" [attr.stop-color]="gradientStopColor"></stop>
+        <stop
+          offset="100%"
+          [attr.stop-color]="gradientStopColor"
+          stop-opacity="0"
+        ></stop>
+      </linearGradient>
+    </defs>
+  </svg>
+</div>

@@ -1,0 +1,17 @@
+.om-connection-beam {
+  width: 100%;
+  height: 100%;
+
+  svg {
+    pointer-events: none;
+    position: absolute;
+    left: 0;
+    top: 0;
+    stroke-width: 2;
+  }
+
+  .transform-gpu {
+    transform: translate3d(0, 0, 0) rotate(0) skewX(0) skewY(0) scaleX(1)
+      scaleY(1);
+  }
+}
