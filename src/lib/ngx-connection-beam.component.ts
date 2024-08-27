@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule } from "@angular/common";
 import {
   AfterViewInit,
   Component,
@@ -6,78 +6,81 @@ import {
   Input,
   OnDestroy,
   ViewChild,
-} from '@angular/core';
+} from "@angular/core";
 
 @Component({
-  selector: 'om-connection-beam',
+  selector: "om-connection-beam",
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './ngx-connection-beam.component.html',
-  styleUrl: './ngx-connection-beam.component.scss',
+  templateUrl: "./ngx-connection-beam.component.html",
+  styleUrl: "./ngx-connection-beam.component.scss",
 })
 export class NgxConnectionBeamComponent implements AfterViewInit, OnDestroy {
-  @ViewChild('OmConnectionBeamWrapper') wrapper!: ElementRef<HTMLElement>;
+  @ViewChild("OmConnectionBeamWrapper") wrapper!: ElementRef<HTMLElement>;
 
-  @Input('fromRef')
+  @Input("fromRef")
   fromRef!: HTMLElement;
 
-  @Input('toRef')
+  @Input("toRef")
   toRef!: HTMLElement;
 
-  @Input('curvature')
+  @Input("curvature")
   curvature: number = 0;
 
-  @Input('reverse')
+  @Input("reverse")
   set reverseValue(reverse: boolean) {
     this.isReverse = reverse;
-    this.updatePath();
+
+    if (this.wrapper && this.fromRef && this.toRef) {
+      this.updatePath();
+    }
   }
 
   isReverse = false;
 
-  @Input('pathColor')
-  pathColor: string = 'gray';
+  @Input("pathColor")
+  pathColor: string = "gray";
 
-  @Input('pathWidth')
+  @Input("pathWidth")
   pathWidth: number = 2;
 
-  @Input('pathOpacity')
+  @Input("pathOpacity")
   pathOpacity: number = 0.2;
 
-  @Input('gradientStartColor')
-  gradientStartColor: string = '#ffaa40';
+  @Input("gradientStartColor")
+  gradientStartColor: string = "#ffaa40";
 
-  @Input('gradientStopColor')
-  gradientStopColor: string = '#9c40ff';
+  @Input("gradientStopColor")
+  gradientStopColor: string = "#9c40ff";
 
-  @Input('delay')
+  @Input("delay")
   delay: number = 0;
 
-  @Input('duration')
+  @Input("duration")
   duration: number = Math.random() * 3 + 4;
 
-  @Input('startXOffset')
+  @Input("startXOffset")
   startXOffset: number = 0;
 
-  @Input('startYOffset')
+  @Input("startYOffset")
   startYOffset: number = 0;
 
-  @Input('endXOffset')
+  @Input("endXOffset")
   endXOffset: number = 0;
 
-  @Input('endYOffset')
+  @Input("endYOffset")
   endYOffset: number = 0;
 
-  path: string = '';
+  path: string = "";
   svgDimensions = { width: 0, height: 0 };
 
   id = crypto.randomUUID();
 
   gradientCoordinates = {
-    x1: ['100%', '0%'],
-    x2: ['100%', '0%'],
-    y1: ['0%', '0%'],
-    y2: ['0%', '0%'],
+    x1: ["100%", "0%"],
+    x2: ["100%", "0%"],
+    y1: ["0%", "0%"],
+    y2: ["0%", "0%"],
   };
 
   private startTime: number | null = null;
@@ -88,18 +91,18 @@ export class NgxConnectionBeamComponent implements AfterViewInit, OnDestroy {
   ngAfterViewInit(): void {
     if (!this.fromRef || !this.toRef) {
       throw new Error(
-        'ngx-connection-beam: One or both RefElements are missing!'
+        "ngx-connection-beam: One or both RefElements are missing!"
       );
     }
 
     this.updatePath();
     this.animate();
 
-    window.addEventListener('resize', () => this.handleResize());
+    window.addEventListener("resize", () => this.handleResize());
   }
 
   ngOnDestroy(): void {
-    window.removeEventListener('resize', () => this.handleResize());
+    window.removeEventListener("resize", () => this.handleResize());
 
     if (this.animationFrameId) {
       cancelAnimationFrame(this.animationFrameId);
@@ -158,33 +161,33 @@ export class NgxConnectionBeamComponent implements AfterViewInit, OnDestroy {
     if (isVertical) {
       if (this.isReverse) {
         this.gradientCoordinates = {
-          x1: ['0%', '0%'],
-          x2: ['0%', '0%'],
-          y1: ['90%', '-10%'],
-          y2: ['100%', '0%'],
+          x1: ["0%", "0%"],
+          x2: ["0%", "0%"],
+          y1: ["90%", "-10%"],
+          y2: ["100%", "0%"],
         };
       } else {
         this.gradientCoordinates = {
-          x1: ['0%', '0%'],
-          x2: ['0%', '0%'],
-          y1: ['10%', '110%'],
-          y2: ['0%', '100%'],
+          x1: ["0%", "0%"],
+          x2: ["0%", "0%"],
+          y1: ["10%", "110%"],
+          y2: ["0%", "100%"],
         };
       }
     } else {
       if (this.isReverse) {
         this.gradientCoordinates = {
-          x1: ['90%', '-10%'],
-          x2: ['100%', '0%'],
-          y1: ['0%', '0%'],
-          y2: ['0%', '0%'],
+          x1: ["90%", "-10%"],
+          x2: ["100%", "0%"],
+          y1: ["0%", "0%"],
+          y2: ["0%", "0%"],
         };
       } else {
         this.gradientCoordinates = {
-          x1: ['10%', '110%'],
-          x2: ['0%', '100%'],
-          y1: ['0%', '0%'],
-          y2: ['0%', '0%'],
+          x1: ["10%", "110%"],
+          x2: ["0%", "100%"],
+          y1: ["0%", "0%"],
+          y2: ["0%", "0%"],
         };
       }
     }
@@ -234,12 +237,12 @@ export class NgxConnectionBeamComponent implements AfterViewInit, OnDestroy {
       );
 
       const gradientElement =
-        this.wrapper.nativeElement.querySelector('linearGradient');
+        this.wrapper.nativeElement.querySelector("linearGradient");
       if (gradientElement) {
-        gradientElement.setAttribute('x1', x1);
-        gradientElement.setAttribute('x2', x2);
-        gradientElement.setAttribute('y1', y1);
-        gradientElement.setAttribute('y2', y2);
+        gradientElement.setAttribute("x1", x1);
+        gradientElement.setAttribute("x2", x2);
+        gradientElement.setAttribute("y1", y1);
+        gradientElement.setAttribute("y2", y2);
       }
 
       if (elapsed < duration) {
