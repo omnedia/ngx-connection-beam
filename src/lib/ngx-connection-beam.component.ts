@@ -1,12 +1,5 @@
-import { CommonModule } from "@angular/common";
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  Input,
-  OnDestroy,
-  ViewChild,
-} from "@angular/core";
+import {CommonModule, isPlatformBrowser} from "@angular/common";
+import {AfterViewInit, Component, ElementRef, Inject, Input, OnDestroy, PLATFORM_ID, ViewChild,} from "@angular/core";
 
 @Component({
   selector: "om-connection-beam",
@@ -72,7 +65,7 @@ export class NgxConnectionBeamComponent implements AfterViewInit, OnDestroy {
   endYOffset: number = 0;
 
   path: string = "";
-  svgDimensions = { width: 0, height: 0 };
+  svgDimensions = {width: 0, height: 0};
 
   id = crypto.randomUUID();
 
@@ -92,6 +85,11 @@ export class NgxConnectionBeamComponent implements AfterViewInit, OnDestroy {
 
   private resizeTimeout: any;
 
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: object
+  ) {
+  }
+
   ngAfterViewInit(): void {
     if (!this.fromRef || !this.toRef) {
       throw new Error(
@@ -104,10 +102,12 @@ export class NgxConnectionBeamComponent implements AfterViewInit, OnDestroy {
 
     window.addEventListener("resize", () => this.handleResize());
 
-    this.intersectionObserver = new IntersectionObserver(([entry]) => {
-      this.renderContents(entry.isIntersecting);
-    });
-    this.intersectionObserver.observe(this.wrapper.nativeElement);
+    if (isPlatformBrowser(this.platformId)) {
+      this.intersectionObserver = new IntersectionObserver(([entry]) => {
+        this.renderContents(entry.isIntersecting);
+      });
+      this.intersectionObserver.observe(this.wrapper.nativeElement);
+    }
   }
 
   ngOnDestroy(): void {
@@ -148,7 +148,7 @@ export class NgxConnectionBeamComponent implements AfterViewInit, OnDestroy {
 
     const svgWidth = containerRect.width;
     const svgHeight = containerRect.height;
-    this.svgDimensions = { width: svgWidth, height: svgHeight };
+    this.svgDimensions = {width: svgWidth, height: svgHeight};
 
     const startX =
       rectA.left - containerRect.left + rectA.width / 2 + this.startXOffset;
