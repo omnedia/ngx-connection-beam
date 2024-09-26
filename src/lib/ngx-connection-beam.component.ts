@@ -67,7 +67,7 @@ export class NgxConnectionBeamComponent implements AfterViewInit, OnDestroy {
   path: string = "";
   svgDimensions = {width: 0, height: 0};
 
-  id = crypto.randomUUID();
+  id = this.generateUUID();
 
   gradientCoordinates = {
     x1: ["100%", "0%"],
@@ -285,5 +285,13 @@ export class NgxConnectionBeamComponent implements AfterViewInit, OnDestroy {
     };
 
     this.animationFrameId = requestAnimationFrame(animateFrame);
+  }
+
+  private generateUUID(): string {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (char) => {
+      const randomNum = Math.random() * 16 | 0;
+      const value = char === 'x' ? randomNum : (randomNum & 0x3 | 0x8);
+      return value.toString(16);
+    });
   }
 }
