@@ -1,5 +1,13 @@
 # ngx-connection-beam
 
+<a href="https://ngxui.com" target="_blank" style="display: flex;gap: .5rem;align-items: center;cursor: pointer; padding: 0 0 0 0; height: fit-content;">
+  <img src="https://ngxui.com/assets/img/ngxui-logo.png" style="width: 64px;height: 64px;">
+  <p style="font-weight: bold; padding: 0; margin: 0; font-size: 4rem">NGXUI</p>
+</a>
+
+This Library is part of the NGXUI ecosystem. <br>
+View all available components at https://ngxui.com
+
 `@omnedia/ngx-connection-beam` is an Angular component that dynamically renders animated connection lines between two elements. With customizable curvature, colors, and animation settings, it creates visually striking connection beams between any two elements in your Angular application.
 
 ## Features
@@ -22,26 +30,28 @@ npm install @omnedia/ngx-connection-beam
 Import the `NgxConnectionBeamComponent` in your Angular module or component:
 
 ```typescript
-import { NgxConnectionBeamComponent } from '@omnedia/ngx-connection-beam';
+import {NgxConnectionBeamComponent} from '@omnedia/ngx-connection-beam';
 
 @Component({
   ...
-  imports: [
-    ...
-    NgxConnectionBeamComponent,
-  ],
+    imports:
+[
   ...
+    NgxConnectionBeamComponent,
+],
+...
 })
 ```
 
 Use the component in your template:
 
 ```html
-<div class="wrapper">
-    <div #elementA></div>
-    <div #elementB></div>
 
-    <om-connection-beam
+<div class="wrapper">
+  <div #elementA></div>
+  <div #elementB></div>
+
+  <om-connection-beam
     [fromRef]="elementA"
     [toRef]="elementB"
     [curvature]="50"
@@ -50,8 +60,8 @@ Use the component in your template:
     [duration]="6"
     [gradientStartColor]="'#ffcc00'"
     [gradientStopColor]="'#3498db'"
-    >
-    </om-connection-beam>
+  >
+  </om-connection-beam>
 </div>
 ```
 
@@ -64,6 +74,7 @@ Use the component in your template:
 ## API
 
 ```html
+
 <om-connection-beam
   [fromRef]="fromElement"
   [toRef]="toElement"
@@ -100,11 +111,12 @@ Use the component in your template:
 ## Example
 
 ```html
-<div class="wrapper">
-    <div #startElement></div>
-    <div #endElement></div>
 
-    <om-connection-beam
+<div class="wrapper">
+  <div #startElement></div>
+  <div #endElement></div>
+
+  <om-connection-beam
     [fromRef]="startElement"
     [toRef]="endElement"
     [curvature]="100"
@@ -113,8 +125,8 @@ Use the component in your template:
     [gradientStopColor]="'#9b59b6'"
     [duration]="5"
     [reverse]="true"
-    >
-    </om-connection-beam>
+  >
+  </om-connection-beam>
 </div>
 ```
 
