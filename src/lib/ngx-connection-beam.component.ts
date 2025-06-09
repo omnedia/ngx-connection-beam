@@ -1,5 +1,15 @@
 import {CommonModule, isPlatformBrowser} from "@angular/common";
-import {AfterViewInit, Component, ElementRef, Inject, Input, OnDestroy, PLATFORM_ID, ViewChild,} from "@angular/core";
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Inject,
+  Input,
+  OnDestroy,
+  PLATFORM_ID,
+  ViewChild,
+} from "@angular/core";
 
 @Component({
   selector: "om-connection-beam",
@@ -86,7 +96,8 @@ export class NgxConnectionBeamComponent implements AfterViewInit, OnDestroy {
   private resizeTimeout: any;
 
   constructor(
-    @Inject(PLATFORM_ID) private platformId: object
+    @Inject(PLATFORM_ID) private platformId: object,
+    private readonly cdr: ChangeDetectorRef,
   ) {
   }
 
@@ -105,6 +116,7 @@ export class NgxConnectionBeamComponent implements AfterViewInit, OnDestroy {
     if (isPlatformBrowser(this.platformId)) {
       this.intersectionObserver = new IntersectionObserver(([entry]) => {
         this.renderContents(entry.isIntersecting);
+        this.cdr.detectChanges();
       });
       this.intersectionObserver.observe(this.wrapper.nativeElement);
     }
@@ -138,6 +150,7 @@ export class NgxConnectionBeamComponent implements AfterViewInit, OnDestroy {
     clearTimeout(this.resizeTimeout);
     this.resizeTimeout = setTimeout(() => {
       this.updatePath();
+      this.cdr.detectChanges();
     }, 100);
   };
 
@@ -215,6 +228,8 @@ export class NgxConnectionBeamComponent implements AfterViewInit, OnDestroy {
         };
       }
     }
+
+    this.cdr.detectChanges();
   }
 
   cubicEasing(t: number): number {
@@ -282,6 +297,8 @@ export class NgxConnectionBeamComponent implements AfterViewInit, OnDestroy {
         this.startTime = null;
         this.animationFrameId = requestAnimationFrame(animateFrame);
       }
+
+      this.cdr.detectChanges();
     };
 
     this.animationFrameId = requestAnimationFrame(animateFrame);
