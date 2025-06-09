@@ -18,7 +18,7 @@
     "network"
   ],
   "repository": {
-    "url": "https://github.com/omnedia/ngx-particles"
+    "url": "https://github.com/omnedia/ngx-connection-beam"
   },
   "author": "Markus Block (markus.block@omnedia.com)",
   "license": "MIT"
